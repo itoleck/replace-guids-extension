@@ -7,7 +7,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/itoleck/AzMigrateVisualizer.git"
+        "url": "https://github.com/itoleck/replace-guids-extension.git"
     },
     "engines": {
         "vscode": "^1.85.0"
