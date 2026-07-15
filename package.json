@@ -1,0 +1,51 @@
+{
+    "name": "replace-guids",
+    "displayName": "Replace GUIDs",
+    "description": "Right-click any file in the Explorer to write a copy with every UUID/GUID replaced by a configurable value.",
+    "version": "0.0.1",
+    "publisher": "itoleck",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/itoleck/AzMigrateVisualizer.git"
+    },
+    "engines": {
+        "vscode": "^1.85.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "replaceGuids.replaceInFile",
+                "title": "Replace GUIDs"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "replaceGuids.replaceInFile",
+                    "when": "!explorerResourceIsFolder",
+                    "group": "7_modification"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Replace GUIDs",
+            "properties": {
+                "replaceGuids.replacementGuid": {
+                    "type": "string",
+                    "default": "00000000-0000-0000-0000-000000000000",
+                    "description": "The value every detected UUID/GUID is replaced with."
+                },
+                "replaceGuids.filePrefix": {
+                    "type": "string",
+                    "default": "0guid-",
+                    "description": "Prefix added to the original file name for the scrubbed copy (e.g. data.json becomes 0guid-data.json)."
+                }
+            }
+        }
+    }
+}
