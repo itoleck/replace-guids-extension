@@ -1,4 +1,4 @@
-# Replace GUIDs
+# <img width="814" height="825" alt="replace_guids" src="https://github.com/user-attachments/assets/388295ad-9f44-48db-ae43-37bb8e8cf3da" /> Replace GUIDs
 
 Right-click any file in the VS Code Explorer and choose **Replace GUIDs** to
 write a copy of the file with every UUID/GUID replaced by a configurable
