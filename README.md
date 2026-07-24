@@ -41,3 +41,11 @@ code --install-extension replace-guids.vsix
 ```
 
 Or in VS Code: Extensions view → `...` menu → **Install from VSIX...**
+
+## Requirements
+
+VS Code `^1.85.0`.
+
+## License
+
+MIT
