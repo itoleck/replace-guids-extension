@@ -6,7 +6,7 @@ value. GUIDs embedded inside longer strings (ARM resource ids, machine
 names, connection strings, ...) are replaced too. The original file is never
 modified.
 
-Useful for anonymizing Azure Migrate exports (subscription ids, appliance
+Useful for anonymizing Azure resource/template exports (subscription ids, appliance
 ids, BIOS GUIDs) before sharing them or checking them in as test data.
 
 ## Usage
@@ -27,17 +27,17 @@ the file open in the active editor.
 | `replaceGuids.replacementGuid` | `00000000-0000-0000-0000-000000000000` | The value every detected UUID/GUID is replaced with. |
 | `replaceGuids.filePrefix` | `0guid-` | Prefix added to the original file name for the scrubbed copy. |
 
-## Building the VSIX
+## Building the VSIX from Github source
 
 ```sh
 cd replace-guids-extension
 npx --yes @vscode/vsce package
 ```
 
-## Installing
+## Installing the VSIX from Github source
 
 ```sh
-code --install-extension replace-guids-0.0.1.vsix
+code --install-extension replace-guids.vsix
 ```
 
 Or in VS Code: Extensions view → `...` menu → **Install from VSIX...**
