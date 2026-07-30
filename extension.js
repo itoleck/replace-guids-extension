@@ -5,6 +5,12 @@ const vscode = require("vscode");
 const GUID_RE =
     /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/g;
 
+// GUIDs are compared case-insensitively and tolerate the {...} wrapper
+// so the exclusion list matches however the user pasted the value in.
+function normalizeGuid(value) {
+    return String(value).trim().replace(/^\{|\}$/g, "").toLowerCase();
+}
+
 async function replaceGuidsInFile(uri) {
     // Explorer context menu passes the clicked uri; fall back to the
     // active editor so the command also works from the palette.
@@ -22,13 +28,23 @@ async function replaceGuidsInFile(uri) {
         "00000000-0000-0000-0000-000000000000"
     );
     const prefix = config.get("filePrefix", "0guid-");
+    const excluded = new Set(
+        (config.get("excludedGuids", []) || [])
+            .map(normalizeGuid)
+            .filter((guid) => guid.length > 0)
+    );
 
     try {
         const bytes = await vscode.workspace.fs.readFile(uri);
         const text = Buffer.from(bytes).toString("utf8");
 
         let count = 0;
-        const scrubbed = text.replace(GUID_RE, () => {
+        let skipped = 0;
+        const scrubbed = text.replace(GUID_RE, (match) => {
+            if (excluded.has(normalizeGuid(match))) {
+                skipped += 1;
+                return match;
+            }
             count += 1;
             return replacement;
         });
@@ -40,7 +56,8 @@ async function replaceGuidsInFile(uri) {
             Buffer.from(scrubbed, "utf8")
         );
 
-        const message = `Replace GUIDs: replaced ${count} GUID(s), wrote ${
+        const excludedNote = skipped ? `, kept ${skipped} excluded GUID(s)` : "";
+        const message = `Replace GUIDs: replaced ${count} GUID(s)${excludedNote}, wrote ${
             prefix + baseName
         }`;
         const open = "Open file";
